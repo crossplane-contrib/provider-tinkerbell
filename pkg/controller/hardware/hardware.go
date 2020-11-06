@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package mytype
+package hardware
 
 import (
 	"context"
@@ -31,12 +31,12 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 
-	"github.com/crossplane/provider-template/apis/sample/v1alpha1"
-	apisv1alpha1 "github.com/crossplane/provider-template/apis/v1alpha1"
+	"github.com/displague/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
+	apisv1alpha1 "github.com/displague/crossplane-provider-tinkerbell/apis/v1alpha1"
 )
 
 const (
-	errNotMyType    = "managed resource is not a MyType custom resource"
+	errNotHardware  = "managed resource is not a Hardware custom resource"
 	errTrackPCUsage = "cannot track ProviderConfig usage"
 	errGetPC        = "cannot get ProviderConfig"
 	errNoSecretRef  = "ProviderConfig does not reference a credentials Secret"
@@ -52,12 +52,12 @@ var (
 	newNoOpService = func(_ []byte) (interface{}, error) { return &NoOpService{}, nil }
 )
 
-// Setup adds a controller that reconciles MyType managed resources.
+// Setup adds a controller that reconciles Hardware managed resources.
 func Setup(mgr ctrl.Manager, l logging.Logger) error {
-	name := managed.ControllerName(v1alpha1.MyTypeGroupKind)
+	name := managed.ControllerName(v1alpha1.HardwareGroupKind)
 
 	r := managed.NewReconciler(mgr,
-		resource.ManagedKind(v1alpha1.MyTypeGroupVersionKind),
+		resource.ManagedKind(v1alpha1.HardwareGroupVersionKind),
 		managed.WithExternalConnecter(&connector{
 			kube:         mgr.GetClient(),
 			usage:        resource.NewProviderConfigUsageTracker(mgr.GetClient(), &apisv1alpha1.ProviderConfigUsage{}),
@@ -67,7 +67,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		Named(name).
-		For(&v1alpha1.MyType{}).
+		For(&v1alpha1.Hardware{}).
 		Complete(r)
 }
 
@@ -85,9 +85,9 @@ type connector struct {
 // 3. Getting the ProviderConfig's credentials secret.
 // 4. Using the credentials secret to form a client.
 func (c *connector) Connect(ctx context.Context, mg resource.Managed) (managed.ExternalClient, error) {
-	cr, ok := mg.(*v1alpha1.MyType)
+	cr, ok := mg.(*v1alpha1.Hardware)
 	if !ok {
-		return nil, errors.New(errNotMyType)
+		return nil, errors.New(errNotHardware)
 	}
 
 	if err := c.usage.Track(ctx, mg); err != nil {
@@ -129,9 +129,9 @@ type external struct {
 }
 
 func (c *external) Observe(ctx context.Context, mg resource.Managed) (managed.ExternalObservation, error) {
-	cr, ok := mg.(*v1alpha1.MyType)
+	cr, ok := mg.(*v1alpha1.Hardware)
 	if !ok {
-		return managed.ExternalObservation{}, errors.New(errNotMyType)
+		return managed.ExternalObservation{}, errors.New(errNotHardware)
 	}
 
 	// These fmt statements should be removed in the real implementation.
@@ -155,9 +155,9 @@ func (c *external) Observe(ctx context.Context, mg resource.Managed) (managed.Ex
 }
 
 func (c *external) Create(ctx context.Context, mg resource.Managed) (managed.ExternalCreation, error) {
-	cr, ok := mg.(*v1alpha1.MyType)
+	cr, ok := mg.(*v1alpha1.Hardware)
 	if !ok {
-		return managed.ExternalCreation{}, errors.New(errNotMyType)
+		return managed.ExternalCreation{}, errors.New(errNotHardware)
 	}
 
 	fmt.Printf("Creating: %+v", cr)
@@ -170,9 +170,9 @@ func (c *external) Create(ctx context.Context, mg resource.Managed) (managed.Ext
 }
 
 func (c *external) Update(ctx context.Context, mg resource.Managed) (managed.ExternalUpdate, error) {
-	cr, ok := mg.(*v1alpha1.MyType)
+	cr, ok := mg.(*v1alpha1.Hardware)
 	if !ok {
-		return managed.ExternalUpdate{}, errors.New(errNotMyType)
+		return managed.ExternalUpdate{}, errors.New(errNotHardware)
 	}
 
 	fmt.Printf("Updating: %+v", cr)
@@ -185,9 +185,9 @@ func (c *external) Update(ctx context.Context, mg resource.Managed) (managed.Ext
 }
 
 func (c *external) Delete(ctx context.Context, mg resource.Managed) error {
-	cr, ok := mg.(*v1alpha1.MyType)
+	cr, ok := mg.(*v1alpha1.Hardware)
 	if !ok {
-		return errors.New(errNotMyType)
+		return errors.New(errNotHardware)
 	}
 
 	fmt.Printf("Deleting: %+v", cr)

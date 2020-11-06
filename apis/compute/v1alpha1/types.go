@@ -22,50 +22,50 @@ import (
 	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 )
 
-// MyTypeParameters are the configurable fields of a MyType.
-type MyTypeParameters struct {
+// HardwareParameters are the configurable fields of a Hardware.
+type HardwareParameters struct {
 	ConfigurableField string `json:"configurableField"`
 }
 
-// MyTypeObservation are the observable fields of a MyType.
-type MyTypeObservation struct {
+// HardwareObservation are the observable fields of a Hardware.
+type HardwareObservation struct {
 	ObservableField string `json:"observableField,omitempty"`
 }
 
-// A MyTypeSpec defines the desired state of a MyType.
-type MyTypeSpec struct {
+// A HardwareSpec defines the desired state of a Hardware.
+type HardwareSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MyTypeParameters `json:"forProvider"`
+	ForProvider                  HardwareParameters `json:"forProvider"`
 }
 
-// A MyTypeStatus represents the observed state of a MyType.
-type MyTypeStatus struct {
+// A HardwareStatus represents the observed state of a Hardware.
+type HardwareStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MyTypeObservation `json:"atProvider,omitempty"`
+	AtProvider                     HardwareObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// A MyType is an example API type
+// A Hardware is an example API type
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="STATUS",type="string",JSONPath=".status.bindingPhase"
 // +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.atProvider.state"
 // +kubebuilder:printcolumn:name="CLASS",type="string",JSONPath=".spec.classRef.name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster
-type MyType struct {
+type Hardware struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MyTypeSpec   `json:"spec"`
-	Status MyTypeStatus `json:"status,omitempty"`
+	Spec   HardwareSpec   `json:"spec"`
+	Status HardwareStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// MyTypeList contains a list of MyType
-type MyTypeList struct {
+// HardwareList contains a list of Hardware
+type HardwareList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []MyType `json:"items"`
+	Items           []Hardware `json:"items"`
 }

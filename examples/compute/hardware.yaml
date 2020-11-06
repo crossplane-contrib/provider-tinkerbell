@@ -1,5 +1,5 @@
-apiVersion: sample.template.crossplane.io/v1alpha1
-kind: MyType
+apiVersion: compute.tinkerbell.org/v1alpha1
+kind: Hardware
 metadata:
   name: example
 spec:

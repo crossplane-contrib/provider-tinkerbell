@@ -21,16 +21,16 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 
-	"github.com/crossplane/provider-template/pkg/controller/config"
-	"github.com/crossplane/provider-template/pkg/controller/mytype"
+	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller/config"
+	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller/hardware"
 )
 
-// Setup creates all Template controllers with the supplied logger and adds them to
+// Setup creates all Tinkerbell controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, l logging.Logger) error {
 	for _, setup := range []func(ctrl.Manager, logging.Logger) error{
 		config.Setup,
-		mytype.Setup,
+		hardware.Setup,
 	} {
 		if err := setup(mgr, l); err != nil {
 			return err
