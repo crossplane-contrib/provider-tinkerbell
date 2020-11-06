@@ -69,3 +69,99 @@ type HardwareList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Hardware `json:"items"`
 }
+
+// TemplateParameters are the configurable fields of a Template.
+type TemplateParameters struct {
+	ConfigurableField string `json:"configurableField"`
+}
+
+// TemplateObservation are the observable fields of a Template.
+type TemplateObservation struct {
+	ObservableField string `json:"observableField,omitempty"`
+}
+
+// A TemplateSpec defines the desired state of a Template.
+type TemplateSpec struct {
+	runtimev1alpha1.ResourceSpec `json:",inline"`
+	ForProvider                  TemplateParameters `json:"forProvider"`
+}
+
+// A TemplateStatus represents the observed state of a Template.
+type TemplateStatus struct {
+	runtimev1alpha1.ResourceStatus `json:",inline"`
+	AtProvider                     TemplateObservation `json:"atProvider,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// A Template is an example API type
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="STATUS",type="string",JSONPath=".status.bindingPhase"
+// +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.atProvider.state"
+// +kubebuilder:printcolumn:name="CLASS",type="string",JSONPath=".spec.classRef.name"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Cluster
+type Template struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   TemplateSpec   `json:"spec"`
+	Status TemplateStatus `json:"status,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// TemplateList contains a list of Template
+type TemplateList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Template `json:"items"`
+}
+
+// WorkflowParameters are the configurable fields of a Workflow.
+type WorkflowParameters struct {
+	ConfigurableField string `json:"configurableField"`
+}
+
+// WorkflowObservation are the observable fields of a Workflow.
+type WorkflowObservation struct {
+	ObservableField string `json:"observableField,omitempty"`
+}
+
+// A WorkflowSpec defines the desired state of a Workflow.
+type WorkflowSpec struct {
+	runtimev1alpha1.ResourceSpec `json:",inline"`
+	ForProvider                  WorkflowParameters `json:"forProvider"`
+}
+
+// A WorkflowStatus represents the observed state of a Workflow.
+type WorkflowStatus struct {
+	runtimev1alpha1.ResourceStatus `json:",inline"`
+	AtProvider                     WorkflowObservation `json:"atProvider,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// A Workflow is an example API type
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="STATUS",type="string",JSONPath=".status.bindingPhase"
+// +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.atProvider.state"
+// +kubebuilder:printcolumn:name="CLASS",type="string",JSONPath=".spec.classRef.name"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Cluster
+type Workflow struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   WorkflowSpec   `json:"spec"`
+	Status WorkflowStatus `json:"status,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// WorkflowList contains a list of Workflow
+type WorkflowList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Workflow `json:"items"`
+}

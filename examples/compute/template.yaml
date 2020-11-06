@@ -1,0 +1,9 @@
+apiVersion: compute.tinkerbell.org/v1alpha1
+kind: Template
+metadata:
+  name: example
+spec:
+  forProvider:
+    configurableField: test
+  providerConfigRef:
+    name: example

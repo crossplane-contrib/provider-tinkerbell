@@ -74,3 +74,115 @@ func (mg *Hardware) SetProviderReference(r *runtimev1alpha1.Reference) {
 func (mg *Hardware) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this Template.
+func (mg *Template) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this Template.
+func (mg *Template) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this Template.
+func (mg *Template) GetProviderConfigReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this Template.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *Template) GetProviderReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetWriteConnectionSecretToReference of this Template.
+func (mg *Template) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this Template.
+func (mg *Template) SetConditions(c ...runtimev1alpha1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this Template.
+func (mg *Template) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this Template.
+func (mg *Template) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this Template.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *Template) SetProviderReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetWriteConnectionSecretToReference of this Template.
+func (mg *Template) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this Workflow.
+func (mg *Workflow) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this Workflow.
+func (mg *Workflow) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this Workflow.
+func (mg *Workflow) GetProviderConfigReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this Workflow.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *Workflow) GetProviderReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetWriteConnectionSecretToReference of this Workflow.
+func (mg *Workflow) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this Workflow.
+func (mg *Workflow) SetConditions(c ...runtimev1alpha1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this Workflow.
+func (mg *Workflow) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this Workflow.
+func (mg *Workflow) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this Workflow.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *Workflow) SetProviderReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetWriteConnectionSecretToReference of this Workflow.
+func (mg *Workflow) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

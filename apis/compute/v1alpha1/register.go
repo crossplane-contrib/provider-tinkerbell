@@ -45,6 +45,24 @@ var (
 	HardwareGroupVersionKind = SchemeGroupVersion.WithKind(HardwareKind)
 )
 
+// Template type metadata.
+var (
+	TemplateKind             = reflect.TypeOf(Template{}).Name()
+	TemplateGroupKind        = schema.GroupKind{Group: Group, Kind: TemplateKind}.String()
+	TemplateKindAPIVersion   = TemplateKind + "." + SchemeGroupVersion.String()
+	TemplateGroupVersionKind = SchemeGroupVersion.WithKind(TemplateKind)
+)
+
+// Workflow type metadata.
+var (
+	WorkflowKind             = reflect.TypeOf(Workflow{}).Name()
+	WorkflowGroupKind        = schema.GroupKind{Group: Group, Kind: WorkflowKind}.String()
+	WorkflowKindAPIVersion   = WorkflowKind + "." + SchemeGroupVersion.String()
+	WorkflowGroupVersionKind = SchemeGroupVersion.WithKind(WorkflowKind)
+)
+
 func init() {
 	SchemeBuilder.Register(&Hardware{}, &HardwareList{})
+	SchemeBuilder.Register(&Template{}, &TemplateList{})
+	SchemeBuilder.Register(&Workflow{}, &WorkflowList{})
 }

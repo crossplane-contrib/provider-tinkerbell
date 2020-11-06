@@ -23,6 +23,8 @@ import (
 
 	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller/config"
 	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller/hardware"
+	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller/template"
+	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller/workflow"
 )
 
 // Setup creates all Tinkerbell controllers with the supplied logger and adds them to
@@ -31,6 +33,8 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 	for _, setup := range []func(ctrl.Manager, logging.Logger) error{
 		config.Setup,
 		hardware.Setup,
+		template.Setup,
+		workflow.Setup,
 	} {
 		if err := setup(mgr, l); err != nil {
 			return err
