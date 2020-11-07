@@ -33,6 +33,7 @@ import (
 
 	"github.com/displague/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
 	apisv1alpha1 "github.com/displague/crossplane-provider-tinkerbell/apis/v1alpha1"
+	"github.com/displague/crossplane-provider-tinkerbell/pkg/client/tinkerbell"
 )
 
 const (
@@ -45,13 +46,6 @@ const (
 	errNewClient = "cannot create new Service"
 )
 
-// A NoOpService does nothing.
-type NoOpService struct{}
-
-var (
-	newNoOpService = func(_ []byte) (interface{}, error) { return &NoOpService{}, nil }
-)
-
 // Setup adds a controller that reconciles Template managed resources.
 func Setup(mgr ctrl.Manager, l logging.Logger) error {
 	name := managed.ControllerName(v1alpha1.TemplateGroupKind)
@@ -61,7 +55,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		managed.WithExternalConnecter(&connector{
 			kube:         mgr.GetClient(),
 			usage:        resource.NewProviderConfigUsageTracker(mgr.GetClient(), &apisv1alpha1.ProviderConfigUsage{}),
-			newServiceFn: newNoOpService}),
+			newServiceFn: tinkerbell.ClientService}),
 		managed.WithLogger(l.WithValues("controller", name)),
 		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))))
 

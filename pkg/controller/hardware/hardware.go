@@ -21,6 +21,9 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
+	"github.com/tinkerbell/tink/protos/hardware"
+	"github.com/tinkerbell/tink/protos/packet"
+	"google.golang.org/grpc"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -28,11 +31,13 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/event"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 
 	"github.com/displague/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
 	apisv1alpha1 "github.com/displague/crossplane-provider-tinkerbell/apis/v1alpha1"
+	"github.com/displague/crossplane-provider-tinkerbell/pkg/client/tinkerbell"
 )
 
 const (
@@ -43,13 +48,9 @@ const (
 	errGetSecret    = "cannot get credentials Secret"
 
 	errNewClient = "cannot create new Service"
-)
+	errNotClient = "service is not a Tinkerbell Client"
 
-// A NoOpService does nothing.
-type NoOpService struct{}
-
-var (
-	newNoOpService = func(_ []byte) (interface{}, error) { return &NoOpService{}, nil }
+	errCreateHardware = "cannot create Tinkerbell Hardware"
 )
 
 // Setup adds a controller that reconciles Hardware managed resources.
@@ -61,7 +62,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		managed.WithExternalConnecter(&connector{
 			kube:         mgr.GetClient(),
 			usage:        resource.NewProviderConfigUsageTracker(mgr.GetClient(), &apisv1alpha1.ProviderConfigUsage{}),
-			newServiceFn: newNoOpService}),
+			newServiceFn: tinkerbell.ClientService}),
 		managed.WithLogger(l.WithValues("controller", name)),
 		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))))
 
@@ -156,11 +157,42 @@ func (c *external) Observe(ctx context.Context, mg resource.Managed) (managed.Ex
 
 func (c *external) Create(ctx context.Context, mg resource.Managed) (managed.ExternalCreation, error) {
 	cr, ok := mg.(*v1alpha1.Hardware)
+
 	if !ok {
 		return managed.ExternalCreation{}, errors.New(errNotHardware)
 	}
 
 	fmt.Printf("Creating: %+v", cr)
+	client, ok := c.service.(*tinkerbell.Client)
+	if !ok {
+		return managed.ExternalCreation{}, errors.New(errNotClient)
+	}
+
+	metadata := &packet.Metadata{
+		Instance: &packet.Metadata_Instance{
+		}
+	}
+
+	// TODO(displague) refactor as pkg/client/hardware.Create
+	hwReq := &hardware.Hardware{
+		Network: &hardware.Hardware_Network{
+			Interfaces: []*hardware.Hardware_Network_Interface{
+				{
+					Dhcp:    &hardware.Hardware_DHCP{},
+					Netboot: &hardware.Hardware_Netboot{},
+				},
+			},
+		},
+		Id:       cr.GetUID(),
+		Version:  0,
+		Metadata: metadata.String(),
+	}
+	pushReq := &hardware.PushRequest{data: hwReq}
+	opts := []grpc.CallOption{}
+	hw, err := hwclient.Hardware().Push(ctx, pushReq, opts)
+	if err != nil {
+		return managed.ExternalCreation{}, errors.New(errCreateHardware)
+	}
 
 	return managed.ExternalCreation{
 		// Optionally return any details that may be required to connect to the
