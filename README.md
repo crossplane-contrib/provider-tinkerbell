@@ -1,12 +1,17 @@
 # crossplane-provider-tinkerbell
 
-`crossplane-provider-tinkerbell` is a minimal [Crossplane](https://crossplane.io/) Provider
-that is meant to be used as a template for implementing new Providers. It comes
-with the following features that are meant to be refactored:
+`crossplane-provider-tinkerbell` is an **experimental** [Crossplane](https://crossplane.io/) Provider for [Tinkerbell](https://tinkerbell.org). It intends to offer the following features (currently incomplete and experimental):
 
 - A `ProviderConfig` type that only points to a credentials `Secret`.
-- A `Hardware` resource type that serves as an example managed resource.
+  The value in the Secret key (identified by the `credentialsSecretRef`) should contain a json or yaml string that includes `grpc_authority` and `cert_url`.
+- A `Hardware` resource type that serves as to managed Hardware resources.
+- A `Template` resource type that serves as to manage Template resources.
+- A `Workflow` resource type that serves as to manage Workflow resources.
 - A managed resource controller that reconciles `Hardware` objects and simply
+  prints their configuration in its `Observe` method.
+- A managed resource controller that reconciles `Template` objects and simply
+  prints their configuration in its `Observe` method.
+- A managed resource controller that reconciles `Workflow` objects and simply
   prints their configuration in its `Observe` method.
 
 ## Developing
