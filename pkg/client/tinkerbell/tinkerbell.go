@@ -1,11 +1,11 @@
 package tinkerbell
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
 	"github.com/tinkerbell/tink/client"
+	"sigs.k8s.io/yaml"
 
 	"github.com/tinkerbell/tink/protos/hardware"
 	"github.com/tinkerbell/tink/protos/template"
@@ -72,7 +72,7 @@ func (p ClientParams) NewClient() (*Client, error) {
 // ClientService creates a Client using credential bytes
 func ClientService(secret []byte) (interface{}, error) {
 	params := ClientParams{}
-	if err := json.Unmarshal(secret, &params); err != nil {
+	if err := yaml.Unmarshal(secret, &params); err != nil {
 		return nil, err
 	}
 	return params.NewClient()
