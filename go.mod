@@ -1,4 +1,4 @@
-module github.com/displague/crossplane-provider-tinkerbell
+module github.com/tinkerbell/crossplane-provider-tinkerbell
 
 go 1.13
 

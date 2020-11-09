@@ -26,8 +26,8 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 
-	"github.com/displague/crossplane-provider-tinkerbell/apis"
-	"github.com/displague/crossplane-provider-tinkerbell/pkg/controller"
+	"github.com/tinkerbell/crossplane-provider-tinkerbell/apis"
+	"github.com/tinkerbell/crossplane-provider-tinkerbell/pkg/controller"
 )
 
 func main() {

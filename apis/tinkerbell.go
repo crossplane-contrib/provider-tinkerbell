@@ -20,8 +20,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	computev1alpha1 "github.com/displague/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
-	tinkerbellv1alpha1 "github.com/displague/crossplane-provider-tinkerbell/apis/v1alpha1"
+	computev1alpha1 "github.com/tinkerbell/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
+	tinkerbellv1alpha1 "github.com/tinkerbell/crossplane-provider-tinkerbell/apis/v1alpha1"
 )
 
 func init() {

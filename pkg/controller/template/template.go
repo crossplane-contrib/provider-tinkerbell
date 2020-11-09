@@ -31,9 +31,9 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 
-	"github.com/displague/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
-	apisv1alpha1 "github.com/displague/crossplane-provider-tinkerbell/apis/v1alpha1"
-	"github.com/displague/crossplane-provider-tinkerbell/pkg/client/tinkerbell"
+	"github.com/tinkerbell/crossplane-provider-tinkerbell/apis/compute/v1alpha1"
+	apisv1alpha1 "github.com/tinkerbell/crossplane-provider-tinkerbell/apis/v1alpha1"
+	"github.com/tinkerbell/crossplane-provider-tinkerbell/pkg/client/tinkerbell"
 )
 
 const (
